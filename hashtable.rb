@@ -22,6 +22,9 @@ class HashPair
     @next
   end
 
+  def to_string
+    "#{@key}: #{@value}"
+  end
 end
 
 class Sentry
@@ -36,6 +39,7 @@ class Sentry
   def next
     @next
   end
+
 end
 
 class HashPairList
@@ -44,12 +48,23 @@ class HashPairList
     @size = 0
   end
 
+  def to_string
+    nodes = []
+    if @head.next
+      curr_node = @head.next
+      until curr_node == nil
+        nodes << curr_node.to_string
+        curr_node = curr_node.next
+      end
+    end
+    return nodes.join(', ')
+  end
+
   def size
     return @size
   end
 
   def insert(hashpair)
-    @size += 1
     if @head.next
       curr_node = @head.next
       while curr_node.next != nil
@@ -59,6 +74,7 @@ class HashPairList
     else
       @head.next = hashpair
     end
+    @size += 1
     return hashpair
   end
 
@@ -87,7 +103,7 @@ class HashPairList
 
     curr_node = @head.next
     while curr_node != nil
-      if curr_node.key == key
+      if curr_node.get_key == key
         return curr_node
       else
         curr_node = curr_node.next
@@ -102,22 +118,32 @@ class HashTable
 
   def initialize
     @table = []
+    @size = 0
   end
   
+  def to_string
+    hlists = []
+    @table.each do |hlist|
+      if hlist
+        hlists << hlist.to_string #TODO: why is nil added at the start? 
+      end
+    end
+    return "{" + hlists.join(', ') + "}"
+  end
+
   def insert(key, value)
     i = parse_key(key)
     item = HashPair.new(key, value)
-
-    @table[i] = if @table[i] then @table[i] else HashPairList.new() end
-    @table[i].add(item)
-
-    return item
+    @table[i] = @table[i] ? @table[i] : HashPairList.new()
+    (@table[i]).insert(item)
+    @size += 1
   end
   
   def find(key)
     i = parse_key(key)
     if @table[i] 
-      return @table[i].find(key)
+      pair = @table[i].find(key)
+      return pair.get_value
     else
       return nil
     end
@@ -126,13 +152,16 @@ class HashTable
   def remove(key)
    i = parse_key(key)
    if @table[i]
-     return @table[i].delete(key)
+     @table[i].delete(key)
+     @size -= 1
    else
      return nil
    end
-
   end
 
+  def size
+    @size
+  end
 
   private
 
@@ -143,12 +172,12 @@ class HashTable
 
   #TODO: implement!
   def compress_code(hashcode)
-    return hashcode
+    hashcode
   end
 
   #TODO: implement!
   def create_hashcode(key)
-    return key
+    key
   end
 
 end
