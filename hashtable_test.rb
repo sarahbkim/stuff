@@ -1,4 +1,7 @@
+require_relative 'hashpair'
+require_relative 'hashpairlist'
 require_relative 'hashtable'
+
 require 'test/unit'
 
 class TestHashPair < Test::Unit::TestCase
