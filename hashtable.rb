@@ -1,4 +1,3 @@
-require_relative 'hashpair'
 require_relative 'hashpairlist'
 
 class HashTable
@@ -29,14 +28,11 @@ class HashTable
   end
 
   def insert(key, value)
-    # see if key already exists
-    unless self.find(key)
-      i = parse_key(key)
-      item = HashPair.new(key, value)
-      @table[i] = @table[i] ? @table[i] : HashPairList.new()
-      (@table[i]).insert(item)
-      @size += 1
-    end
+    i = parse_key(key)
+    @table[i] = @table[i] ? @table[i] : HashPairList.new()
+    prevSize = @table[i].size
+    (@table[i]).insert(key, value)
+    @size += @table[i].size - prevSize
   end
   
   def find(key)
@@ -44,7 +40,7 @@ class HashTable
     if @table[i] 
       pair = @table[i].find(key)
       if pair
-        return pair.get_value
+        return pair
       end
     else
       return nil

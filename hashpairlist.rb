@@ -1,3 +1,5 @@
+require_relative 'hashpair'
+
 class HashPairList
   def initialize
     @head = Sentry.new
@@ -7,10 +9,10 @@ class HashPairList
   def to_string
     nodes = []
     if @head.next
-      curr_node = @head.next
-      until curr_node == nil
-        nodes << curr_node.to_string
-        curr_node = curr_node.next
+      curr = @head.next
+      until curr == nil
+        nodes << curr.to_string
+        curr = curr.next
       end
     end
     return nodes.join(', ')
@@ -19,10 +21,10 @@ class HashPairList
   def keys
     keys = []
     if @head.next
-      curr_node = @head.next
-      while curr_node
-        keys << curr_node.get_key
-        curr_node = curr_node.next
+      curr = @head.next
+      while curr
+        keys << curr.key
+        curr = curr.next
       end
     end
     keys
@@ -32,18 +34,17 @@ class HashPairList
     return @size
   end
 
-  def insert(hashpair)
-    if @head.next
-      curr_node = @head.next
-      while curr_node.next != nil
-        curr_node = curr_node.next
+  def insert(key, value)
+    curr = @head
+    until curr.next == nil
+      curr = curr.next
+      if curr.key == key
+        curr.value = value
+        return
       end
-      curr_node.next = hashpair
-    else
-      @head.next = hashpair
     end
+    curr.next = HashPair.new(key, value)
     @size += 1
-    return hashpair
   end
 
   def delete(key)
@@ -51,15 +52,15 @@ class HashPairList
       return nil
     end
     
-    start = @head
+    curr = @head
 
-    while start.next != nil
-      if start.next.get_key == key
-        start.next = if start.next.next then start.next.next else nil end
+    while curr.next != nil
+      if curr.next.key == key
+        curr.next = if curr.next.next then curr.next.next else nil end
         @size -= 1
         return key 
       end
-      start = start.next
+      curr = curr.next
     end
 
   end
@@ -69,12 +70,12 @@ class HashPairList
       return nil
     end
 
-    curr_node = @head.next
-    while curr_node != nil
-      if curr_node.get_key == key
-        return curr_node
+    curr = @head.next
+    while curr != nil
+      if curr.key == key
+        return curr.value
       else
-        curr_node = curr_node.next
+        curr = curr.next
       end
     end
     return nil

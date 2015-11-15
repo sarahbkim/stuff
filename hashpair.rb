@@ -6,12 +6,20 @@ class HashPair
     @next = nil
   end
 
-  def get_key
-    return @key
+  def key=(key)
+    @key = key
   end
 
-  def get_value
-    return @value
+  def key
+    @key
+  end
+
+  def value=(value) 
+    @value = value
+  end
+
+  def value
+    @value
   end
 
   def next=(hashpair)

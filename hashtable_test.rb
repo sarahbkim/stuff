@@ -4,113 +4,6 @@ require_relative 'hashtable'
 
 require 'test/unit'
 
-class TestHashPair < Test::Unit::TestCase
-  def test_initialize
-    assert_equal(nil, HashPair.new("key0", 0).next())
-    assert_equal(nil, HashPair.new().next())
-    assert_equal(0, HashPair.new("key0", 0).get_value())
-    assert_equal("key0", HashPair.new("key0", 0).get_key())
-  end
-
-  def test_next
-    pair1 = HashPair.new("key0", 0)
-    pair2 = HashPair.new("key1", 1)
-
-    assert_equal(nil, pair1.next())
-    assert_equal(nil, pair2.next())
-    pair1.next = pair2
-    
-    assert_equal(pair2, pair1.next())
-    assert_equal(nil, pair2.next())
-  end
-
-  def test_to_string
-    pair1 = HashPair.new("key0", 0)
-    str = pair1.to_string
-    assert_equal("key0: 0", str)
-    pair2 = HashPair.new("key1", 1)
-    str2 = pair2.to_string
-    assert_equal("key1: 1", str2)
-  end
-end
-
-
-class TestSentry < Test::Unit::TestCase
-  def test_initialize
-    s = Sentry.new
-    assert_equal(nil, s.next())
-  end
-
-  def test_next
-    s = Sentry.new
-    h = HashPair.new()
-    s.next = h
-    assert_equal(h, s.next())
-  end
-end
-
-class TestHashPairList < Test::Unit::TestCase
-  def setup
-    @l = HashPairList.new
-    @h0 = HashPair.new("key0", 0)
-    @h1 = HashPair.new("key1", 1)
-    @h3 = HashPair.new("key2", 2)
-  end
-
-  def test_initialize
-    assert_equal(0, @l.size())
-  end
-
-  def test_to_string
-    @l.insert(@h0)    
-    @l.insert(@h1)
-    str = @l.to_string
-    assert_equal("key0: 0, key1: 1", str)
-    @l.insert(@h0)
-    assert_equal("key0: 0, key1: 1", str)
-  end
-
-  def test_insert
-    @l.insert(@h0)    
-    assert_equal(1, @l.size())
-    assert_equal(@h0, @l.find("key0"))
-    @l.insert(@h1)
-    assert_equal(2, @l.size())
-  end
-
-  def test_get_keys
-    @l.insert(@h0)    
-    @l.insert(@h1)
-    keys = @l.keys
-    assert_equal(["key0", "key1"], keys)
-    @l.insert(@h3)
-    keys2 = @l.keys
-    assert_equal(["key0", "key1", "key2"], keys2)
-  end
-
-  def test_delete
-    @l.insert(@h1)
-    @l.insert(@h0)
-    @l.insert(@h3)
-    assert_equal(3, @l.size)
-    @l.delete("key0")
-    assert_equal(2, @l.size)
-    @l.delete("key1")
-    assert_equal(1, @l.size)
-  end
-
-  def test_find
-    @l.insert(@h1)
-    @l.insert(@h0)
-    @l.insert(@h3)
-    item = @l.find("key0")
-    assert_equal(@h0, item)
-    item2 = @l.find("key1")
-    assert_equal(@h1, item2)
-    assert_equal(3, @l.size)
-  end
-end
-
 class TestHashTable < Test::Unit::TestCase
   def setup
     @h = HashTable.new
@@ -125,15 +18,26 @@ class TestHashTable < Test::Unit::TestCase
     @h.insert(:dog, "they are like drunk fun friends")
     @h.insert(:mouse, "they are just normal")
     assert_equal(3, @h.size)
-    @h.insert(:mouse, "they are just normal")
-    assert_equal(3, @h.size)
+#    @h.insert(:mouse, "they are just normal")
+#    assert_equal(3, @h.size)
+#
+#    @h.insert("cat", "they are like gone girl")
+#    @h.insert("cat", "they are like gone girl")
+#    @h.insert("cat", "they are like gone girl")
+#    @h.insert("dog", "they are like drunk fun friends")
+#    @h.insert("mouse", "they are just normal")
+#    puts @h.to_string
+#    assert_equal(6, @h.size)
+  end
 
+  def test_replace_val
     @h.insert("cat", "they are like gone girl")
-    @h.insert("cat", "they are like gone girl")
-    @h.insert("cat", "they are like gone girl")
-    @h.insert("dog", "they are like drunk fun friends")
-    @h.insert("mouse", "they are just normal")
-    assert_equal(6, @h.size)
+    v0 = @h.find("cat")
+    assert_equal("they are like gone girl",v0) 
+    @h.insert("cat", "they are not like gone girl")
+    v = @h.find("cat")
+    assert_equal("they are not like gone girl",v)
+
   end
 
   def test_find
