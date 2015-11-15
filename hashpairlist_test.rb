@@ -42,13 +42,21 @@ class TestHashPairList < Test::Unit::TestCase
 
   def test_delete
     @l.insert(@h0[0], @h0[1])
-    @l.insert(@h1[0], @h1[1])
     @l.insert(@h3[0], @h3[1])
+    @l.insert(@h1[0], @h1[1])
     assert_equal(3, @l.size)
-    @l.delete("key0")
-    assert_equal(2, @l.size)
+
     @l.delete("key1")
+    assert_equal(2, @l.size)
+    assert_equal(@l.keys, ["key0", "key2"])
+
+    @l.delete("key0")
     assert_equal(1, @l.size)
+    assert_equal(@l.keys, ["key2"])
+
+    @l.delete("key2")
+    assert_equal(0, @l.size)
+    assert_equal(@l.keys, [])
   end
 
   def test_find

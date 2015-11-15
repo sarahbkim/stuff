@@ -49,13 +49,15 @@ class HashPairList
 
   def delete(key)
     prev = @head
+
     while prev.next
       curr = prev.next
       if curr.key == key
-        prev.next = curr.next || nil
+        prev.next = curr.next
         @size -= 1
+        return
       end
-      prev = prev.next
+      prev = curr 
     end
 
   end

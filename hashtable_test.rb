@@ -18,16 +18,15 @@ class TestHashTable < Test::Unit::TestCase
     @h.insert(:dog, "they are like drunk fun friends")
     @h.insert(:mouse, "they are just normal")
     assert_equal(3, @h.size)
-#    @h.insert(:mouse, "they are just normal")
-#    assert_equal(3, @h.size)
-#
-#    @h.insert("cat", "they are like gone girl")
-#    @h.insert("cat", "they are like gone girl")
-#    @h.insert("cat", "they are like gone girl")
-#    @h.insert("dog", "they are like drunk fun friends")
-#    @h.insert("mouse", "they are just normal")
-#    puts @h.to_string
-#    assert_equal(6, @h.size)
+    @h.insert(:mouse, "they are just normal")
+    assert_equal(3, @h.size)
+
+    @h.insert("cat", "they are like gone girl")
+    @h.insert("cat", "they are like gone girl")
+    @h.insert("cat", "they are like gone girl")
+    @h.insert("dog", "they are like drunk fun friends")
+    @h.insert("mouse", "they are just normal")
+    assert_equal(6, @h.size)
   end
 
   def test_replace_val
@@ -60,12 +59,12 @@ class TestHashTable < Test::Unit::TestCase
     assert_equal(f5, "they are like gone girl string")
   end
 
-  def test_remove
+  def test_delete
     @h.insert(3, "cat")
     @h.insert(1, "dog")
     @h.insert(2, "mouse")
     assert_equal(3, @h.size)
-    @h.remove(2)
+    @h.delete(2)
     assert_equal(2, @h.size)
   end
 

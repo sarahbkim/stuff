@@ -47,9 +47,10 @@ class HashTable
     end
   end
 
-  def remove(key)
+  def delete(key)
    i = parse_key(key)
    if @table[i]
+     prevSize = @table[i].size
      @table[i].delete(key)
      @size -= 1
    else
