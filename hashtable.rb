@@ -18,6 +18,16 @@ class HashTable
     return "{" + hlists.join(', ') + "}"
   end
 
+  def keys
+    keys = []
+    @table.each do |t|
+      if t
+        keys << t.keys
+      end
+    end
+    keys.flatten
+  end
+
   def insert(key, value)
     # see if key already exists
     unless self.find(key)
@@ -73,11 +83,10 @@ class HashTable
     end
 
     if key.is_a? String or key.is_a? Symbol
-      key = if key.is_a? Symbol then key.to_s + "symbol" else key end
+      key = if key.is_a? Symbol then ":" + key.to_s else key end
       key.each_byte do |k|
         hashVal = (127 * (hashVal + k)) % 16908799
       end
-      puts key, hashVal
     end
     hashVal
   end

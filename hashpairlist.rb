@@ -16,6 +16,18 @@ class HashPairList
     return nodes.join(', ')
   end
 
+  def keys
+    keys = []
+    if @head.next
+      curr_node = @head.next
+      while curr_node
+        keys << curr_node.get_key
+        curr_node = curr_node.next
+      end
+    end
+    keys
+  end
+
   def size
     return @size
   end

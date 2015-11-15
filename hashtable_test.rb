@@ -78,6 +78,16 @@ class TestHashPairList < Test::Unit::TestCase
     assert_equal(2, @l.size())
   end
 
+  def test_get_keys
+    @l.insert(@h0)    
+    @l.insert(@h1)
+    keys = @l.keys
+    assert_equal(["key0", "key1"], keys)
+    @l.insert(@h3)
+    keys2 = @l.keys
+    assert_equal(["key0", "key1", "key2"], keys2)
+  end
+
   def test_delete
     @l.insert(@h1)
     @l.insert(@h0)
@@ -144,10 +154,6 @@ class TestHashTable < Test::Unit::TestCase
     assert_equal(f4, "they are like gone girl")
     f5 = @h.find("cat")
     assert_equal(f5, "they are like gone girl string")
-
-    @h.insert("dog", "they are like drunk fun friends")
-    @h.insert("mouse", "they are just normal")
-
   end
 
   def test_remove
@@ -163,9 +169,21 @@ class TestHashTable < Test::Unit::TestCase
     @h.insert(3, "cat")
     @h.insert(1, "dog")
     @h.insert(2, "mouse")
-    puts @h.to_string
     assert_equal("{1: dog, 2: mouse, 3: cat}", @h.to_string)
   end
+
+  def test_keys
+    @h.insert(3, "cat")
+    @h.insert(1, "dog")
+    @h.insert(2, "mouse")
+    assert_equal([1, 2, 3], @h.keys)
+    @h.insert(:cat, "they are like gone girl")
+    @h.insert("cat", "they are like gone girl string")
+    @h.insert("dog", "they are like drunk fun friends")
+    @h.insert("mouse", "they are just normal")
+    assert_equal([1, 2, 3, :cat, "cat", "dog", "mouse"], @h.keys)
+  end
+
 end
 
 
