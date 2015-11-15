@@ -5,6 +5,6 @@ currently just a partial implementation of hash tables
 
 to run test(s):
 ------------
-`$ ruby hashtable_test.rb`
+`$ ruby test/run.rb`
 
 
