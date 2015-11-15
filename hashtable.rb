@@ -28,7 +28,7 @@ class HashTable
   end
 
   def insert(key, value)
-    i = parse_key(key)
+    i = get_table_idx(key)
     @table[i] = @table[i] ? @table[i] : HashPairList.new()
     prevSize = @table[i].size
     (@table[i]).insert(key, value)
@@ -36,7 +36,7 @@ class HashTable
   end
   
   def find(key)
-    i = parse_key(key)
+    i = get_table_idx(key)
     if @table[i] 
       pair = @table[i].find(key)
       if pair
@@ -48,7 +48,7 @@ class HashTable
   end
 
   def delete(key)
-   i = parse_key(key)
+   i = get_table_idx(key)
    if @table[i]
      prevSize = @table[i].size
      @table[i].delete(key)
@@ -64,7 +64,7 @@ class HashTable
 
   private
 
-  def parse_key(key)
+  def get_table_idx(key)
     hash_code = create_hashcode(key)
     compress_code(hash_code)
   end
