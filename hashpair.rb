@@ -35,17 +35,10 @@ class HashPair
   end
 end
 
-class Sentry
+class Sentry < HashPair
   def initialize
     @next = nil
+    @key = nil
+    @value = nil
   end
-
-  def next=(item)
-    @next = item
-  end
-
-  def next
-    @next
-  end
-
 end

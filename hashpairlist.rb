@@ -48,19 +48,14 @@ class HashPairList
   end
 
   def delete(key)
-    unless @head
-      return nil
-    end
-    
-    curr = @head
-
-    while curr.next != nil
-      if curr.next.key == key
-        curr.next = if curr.next.next then curr.next.next else nil end
+    prev = @head
+    while prev.next
+      curr = prev.next
+      if curr.key == key
+        prev.next = curr.next || nil
         @size -= 1
-        return key 
       end
-      curr = curr.next
+      prev = prev.next
     end
 
   end
@@ -71,7 +66,7 @@ class HashPairList
     end
 
     curr = @head.next
-    while curr != nil
+    while curr
       if curr.key == key
         return curr.value
       else
