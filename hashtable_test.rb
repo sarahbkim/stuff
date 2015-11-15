@@ -111,10 +111,19 @@ class TestHashTable < Test::Unit::TestCase
   end
 
   def test_insert
-    @h.insert(3, "cat")
-    @h.insert(1, "dog")
-    @h.insert(2, "mouse")
+    @h.insert(:cat, "they are like gone girl")
+    @h.insert(:dog, "they are like drunk fun friends")
+    @h.insert(:mouse, "they are just normal")
     assert_equal(3, @h.size)
+    @h.insert(:mouse, "they are just normal")
+    assert_equal(3, @h.size)
+
+    @h.insert("cat", "they are like gone girl")
+    @h.insert("cat", "they are like gone girl")
+    @h.insert("cat", "they are like gone girl")
+    @h.insert("dog", "they are like drunk fun friends")
+    @h.insert("mouse", "they are just normal")
+    assert_equal(6, @h.size)
   end
 
   def test_find
@@ -128,6 +137,17 @@ class TestHashTable < Test::Unit::TestCase
     f3 = @h.find(1)
     assert_equal("dog", f3)
     assert_equal(3, @h.size)
+
+    @h.insert(:cat, "they are like gone girl")
+    @h.insert("cat", "they are like gone girl string")
+    f4 = @h.find(:cat)
+    assert_equal(f4, "they are like gone girl")
+    f5 = @h.find("cat")
+    assert_equal(f5, "they are like gone girl string")
+
+    @h.insert("dog", "they are like drunk fun friends")
+    @h.insert("mouse", "they are just normal")
+
   end
 
   def test_remove
@@ -143,6 +163,7 @@ class TestHashTable < Test::Unit::TestCase
     @h.insert(3, "cat")
     @h.insert(1, "dog")
     @h.insert(2, "mouse")
+    puts @h.to_string
     assert_equal("{1: dog, 2: mouse, 3: cat}", @h.to_string)
   end
 end

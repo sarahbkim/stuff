@@ -12,25 +12,30 @@ class HashTable
     hlists = []
     @table.each do |hlist|
       if hlist
-        hlists << hlist.to_string #TODO: why is nil added at the start? 
+        hlists << hlist.to_string
       end
     end
     return "{" + hlists.join(', ') + "}"
   end
 
   def insert(key, value)
-    i = parse_key(key)
-    item = HashPair.new(key, value)
-    @table[i] = @table[i] ? @table[i] : HashPairList.new()
-    (@table[i]).insert(item)
-    @size += 1
+    # see if key already exists
+    unless self.find(key)
+      i = parse_key(key)
+      item = HashPair.new(key, value)
+      @table[i] = @table[i] ? @table[i] : HashPairList.new()
+      (@table[i]).insert(item)
+      @size += 1
+    end
   end
   
   def find(key)
     i = parse_key(key)
     if @table[i] 
       pair = @table[i].find(key)
-      return pair.get_value
+      if pair
+        return pair.get_value
+      end
     else
       return nil
     end
@@ -54,17 +59,27 @@ class HashTable
 
   def parse_key(key)
     hash_code = create_hashcode(key)
-    return compress_code(hash_code)
+    compress_code(hash_code)
   end
 
-  #TODO: implement!
   def compress_code(hashcode)
-    hashcode
+    ((7 * hashcode + 5) % 127 ) % 10000
   end
 
-  #TODO: implement!
   def create_hashcode(key)
-    key
+    hashVal = 0
+    if key.is_a? Numeric
+      hashVal = key
+    end
+
+    if key.is_a? String or key.is_a? Symbol
+      key = if key.is_a? Symbol then key.to_s + "symbol" else key end
+      key.each_byte do |k|
+        hashVal = (127 * (hashVal + k)) % 16908799
+      end
+      puts key, hashVal
+    end
+    hashVal
   end
 
 end

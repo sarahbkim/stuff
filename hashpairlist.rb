@@ -36,7 +36,7 @@ class HashPairList
 
   def delete(key)
     unless @head
-      return nil #TODO: or return an exception?
+      return nil
     end
     
     start = @head
