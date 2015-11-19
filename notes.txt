@@ -164,3 +164,21 @@ Transposition tables: Speed Game Trees
 - key is the grid, value is the score for that grid
 
 
+Ruby Implementation of Hash Tables
+----------------------------------
+- They use a Murmur Hash: https://en.wikipedia.org/wiki/MurmurHash
+- Ruby's C code: https://github.com/ruby/ruby/blob/1b5acebef2d447a3dbed6cf5e146fda74b81f10d/st.c
+
+- Ruby's Hash fn: murmur hash, then divides with prime num M, which Ruby determines based on the table size needed for storage
+  - Ruby's .hash method... `Object` class has this default implementation
+  - C code used by Object class's implementation gets C pointer value for target object (actual memory address of that obj's RValue structure), passes that pointer value through the hashing function (murmur hash) that scrambles the bits in the value 
+
+- Hash collisions:
+  Adjusts value of M based on density (num of records at a location in the table)
+  Sets max density to 5, then Ruby adjusts val of M, recomputes and rehashes 
+  "M" calculated by an algorithm that generates primes near powers of 2 (Cf. st.c file at line 158):
+
+- As of Ruby 2.0 - ruby packs hashes for up to 6 entries (everything is saved in 1 bucket and not spread over several buckets), apparently up to 40% of whole allocated hashes never grows bigger than 1 element size
+
+- Ruby Hash key sare ordered based on how it's inserted 
+

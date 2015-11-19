@@ -14,7 +14,7 @@ class HashTable
         hlists << hlist.to_string
       end
     end
-    return "{" + hlists.join(', ') + "}"
+    return "{#{hlists.join(', ')}}"
   end
 
   def keys

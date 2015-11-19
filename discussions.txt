@@ -1,0 +1,20 @@
+1. how to implement set now?
+--------------------------------------
+Cf: set/set.rb
+
+1b. would i use my own, why or why not? 
+--------------------------------------
+- If i actually had to implement a data structure for production use (which seems like a bad idea unless I was working on creating a new programming language that would change the world), maybe I would use my own version (not as currently implemented). 
+- There are several limitations for the current implementation. 
+  - It is not as efficient -- Ruby uses C under the hood to do all of this (https://github.com/ruby/ruby/blob/1b5acebef2d447a3dbed6cf5e146fda74b81f10d/st.c) and I believe that's faster. 
+  - Hash function is not robust, and currently is not type agnostic. Ruby has a hash function in the Object class, which is the base class for all classes in Ruby, and that, in C, calculates the hash code by grabbing the internal memory address of that value and passing that through the Murmur algorithm to scramble the bits
+ - Following the 2nd point, I currently have limitations on what types can be inserted as a key. If i had a "type-agnostic" hash function, I could do what ruby does: 
+ ` {{key => 1} => 'dog'}
+
+2. array size - dynamic v.s. not
+--------------------------------------
+Cf. hashtables/hashtablefixedlength.rb
+
+
+2b. ramifications of an optional initial size specification
+--------------------------------------
