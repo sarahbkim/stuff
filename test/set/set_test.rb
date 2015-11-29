@@ -7,12 +7,20 @@ class TestSet < Test::Unit::TestCase
   def setup
     @s = Set.new
     @nums = [10, 3, 1, 3, 2, 1]
+    @s1 = Set.new([1, 2, 3])
+    @s2 = Set.new([3, 10, 5])
   end
 
   def test_initialize
     assert_equal(0, @s.size)
     assert_equal('{}', @s.print)
     assert_equal(true, @s.is_empty?)
+  end
+
+  def test_initialize_with_args
+    assert_equal(3, @s1.size)
+    assert_equal(3, @s2.size)
+    assert_equal('{1, 2, 3}', @s1.print)
   end
 
   def test_add
@@ -45,6 +53,18 @@ class TestSet < Test::Unit::TestCase
     assert_equal(false, @s.exists(10))
     assert_equal(false, @s.exists(3))
     assert_equal(true, @s.exists(2))
+  end
+
+  def test_union
+    @s1.union(@s2)
+    assert_equal(5, @s1.size)
+    assert_equal(3, @s2.size)
+  end 
+
+  def test_union_again
+    @s2.union(@s1)
+    assert_equal(5, @s2.size)
+    assert_equal(3, @s1.size)
   end
 end
 

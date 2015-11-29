@@ -1,5 +1,5 @@
 # Sets:
-# order is not enforced
+# order is not enforced -- need to set key as insertion order, value as items? hashtable auto-orders... 
 # unique elements only
 # supports the following operations: 
 #  - add: S1.add(1,2,4) => { 1, 2, 4}
@@ -16,18 +16,19 @@
 #  - intersection: S1.intersect(S2) => {1, 2}
 #  - difference: S1.diff(S2) => {3, 4}
 #  - subset: S1.subset(S2) => true 
-
+require 'forwardable'
 require_relative '../hashtable/hashtable'
 
 class Set
+
   def initialize(args=[])
     @size = 0
     @s = HashTable.new()
-    args.each{|a| self.add(item)} 
+    args.each{|a| self.add(a)} 
   end
 
   def add(item)
-    unless @s.find(item)
+    unless self.exists(item)
       @s.insert(item, true)
       @size+= 1
     end
@@ -55,6 +56,21 @@ class Set
   def print
     keys = @s.keys.join(', ')
     return "{#{keys}}"
+  end
+
+  def each
+    @s.each do |item|
+      if item
+        yield item
+      end
+    end
+  end
+
+  def union(set)
+    set.each do |item|
+      val = item.keys.first
+      self.add(val)
+    end
   end
 
 end

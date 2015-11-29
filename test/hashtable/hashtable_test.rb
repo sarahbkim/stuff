@@ -87,6 +87,13 @@ class TestHashTable < Test::Unit::TestCase
     assert_equal([1, 2, 3, :cat, "cat", "dog", "mouse"], @h.keys)
   end
 
+  def test_each
+    @h.insert(3, "cat")
+    @h.insert(1, "dog")
+    @h.insert(2, "mouse")
+    assert_equal([1, 2, 3], @h.keys)
+    @h.each{|item| item.keys}
+  end
 end
 
 
