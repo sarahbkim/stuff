@@ -73,4 +73,22 @@ class Set
     end
   end
 
+  def clear
+    @size = 0
+    @s = HashTable.new()
+  end
+
+  def intersect(set)
+    intersected = []
+    set.each do |item|
+      val = item.keys.first
+      intersected << val if self.exists(val)
+    end
+
+    self.clear
+    intersected.each do |item|
+      self.add(item)
+    end
+  end
+
 end

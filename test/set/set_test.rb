@@ -66,5 +66,18 @@ class TestSet < Test::Unit::TestCase
     assert_equal(5, @s2.size)
     assert_equal(3, @s1.size)
   end
+
+  def test_intersect
+    @s1.intersect(@s2)
+    assert_equal(1, @s1.size)
+    assert_equal('{3}', @s1.print)
+  end
+
+  def test_intersect_again
+    @s2.intersect(@s1)
+
+    assert_equal(1, @s2.size)
+    assert_equal('{3}', @s2.print)
+  end
 end
 
