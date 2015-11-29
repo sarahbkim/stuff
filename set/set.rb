@@ -17,26 +17,31 @@
 #  - difference: S1.diff(S2) => {3, 4}
 #  - subset: S1.subset(S2) => true 
 
-require 'hashtable'
+require_relative '../hashtable/hashtable'
+
 class Set
-  def initialize(args*)
+  def initialize(args=[])
     @size = 0
     @s = HashTable.new()
-    args.each{|a| self.add(item) } 
+    args.each{|a| self.add(item)} 
   end
 
   def add(item)
     unless @s.find(item)
       @s.insert(item, true)
-      @size++
+      @size+= 1
     end
   end
 
   def remove(item)
     # hashtable returns 'nil' if not found
     if @s.delete(item)
-      @size--
+      @size-=1
     end
+  end
+
+  def exists(item)
+    @s.find(item) ? true : false
   end
 
   def is_empty?
