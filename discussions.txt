@@ -18,3 +18,6 @@ Cf. hashtables/hashtablefixedlength.rb
 
 2b. ramifications of an optional initial size specification
 --------------------------------------
+- current implementation of hashtable needs to be edited to be something like hashtablefixedlength.rb
+- would save more space if the user estimated their size correctly, but if they didn't it's possible that re-hashing the table needs to occur more frequently than in a scenario where the hashtable size is set by the system. Ruby's hashtables all initiaze as a single length array in the beginning. They redesigned it this way after seeing that most users have hashtables of length 6. It's increased in size and rehashed only after the user hits the +6 point. 
+- design choice: automatically resize once the load factor is high without informing the user? or alert the user that they are reaching their size limit for efficiency and have them manually fix it? Not sure what would be more useful. i.e, how much control should be given to the user on something that's been abstracted and hidden away in most scenarios?  
