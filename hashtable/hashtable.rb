@@ -1,6 +1,9 @@
 require_relative 'hashpairlist'
+require 'forwardable'
 
 class HashTable
+  include Enumerable
+  extend Forwardable
 
   def initialize
     @table = []
@@ -33,6 +36,14 @@ class HashTable
     prevSize = @table[i].size
     (@table[i]).insert(key, value)
     @size += @table[i].size - prevSize
+  end
+
+  def each
+    @table.each do |item|
+      if item
+        yield item 
+      end
+    end
   end
   
   def find(key)
